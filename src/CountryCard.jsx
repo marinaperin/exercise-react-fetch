@@ -1,16 +1,17 @@
-export default ({ countryName, flagUrl, population, capital }) => {
+export default ({ countryName, flagUrl, population, capitals }) => {
+
   return (
     <section>
       <figure>
         <h3>{countryName}</h3>
-        <img src={flagUrl} alt={countryName} />
+        <img src={flagUrl} alt={`flag of ${countryName}`} />
         <p>
           {" "}
-          <span>Population :</span> {population}
+          <span className="descr">Population:</span> {population}
         </p>
         <p>
           {" "}
-          <span> Capitali :</span> {capital ? capital[0] : "Inesistente"}
+          <span className="descr"> Capital:</span> {[capitals]}
         </p>
       </figure>
     </section>

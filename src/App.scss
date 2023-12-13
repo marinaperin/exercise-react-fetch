@@ -3,11 +3,15 @@
   font-size: 18px;
   background: rgba(0, 0, 0, 0.8);
 }
+main{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
 section {
   display: grid;
   justify-content: center;
   figure {
-    width: 400px;
+    width: 300px;
     border: 1px solid gray;
     padding: 1rem;
     text-align: center;
@@ -17,7 +21,7 @@ section {
     img {
       max-width: 100%;
     }
-    p span {
+    p .descr {
       color: burlywood;
     }
     h3 {

@@ -7,18 +7,18 @@ import SearchBar from "./SearchBar";
 function App() {
   const [countries, setCountries] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [componentDidUpdate, setComponentDidUpdate] = useState(false);
+
   useEffect(() => {
-    if (componentDidUpdate) {
-      fetch("https://restcountries.com/v3.1/all")
-        .then((response) => response.json())
-        .then((obj) => setCountries(obj))
-        .catch((error) => console.error(error));
-    }
+    fetch("https://restcountries.com/v3.1/all")
+      .then((response) => response.json())
+      .then((obj) => {
+        setCountries(
+          obj.sort((a, b) => (a.name.common < b.name.common ? -1 : 1))
+        );
+      })
+      .catch((error) => console.error(error));
   }, []);
-  useEffect(() => {
-    setComponentDidUpdate(true);
-  }, []);
+
   return (
     <div>
       <SearchBar
@@ -29,19 +29,29 @@ function App() {
         onSearch={() => {
           fetch(`https://restcountries.com/v3.1/name/${searchValue}`)
             .then((response) => response.json())
-            .then((obj) => setCountries(obj))
+            .then((obj) =>
+              setCountries(
+                obj.sort((a, b) => (a.name.common < b.name.common ? -1 : 1))
+              )
+            )
             .catch((error) => console.error(error));
           setSearchValue("");
+          console.log(countries);
         }}
       />
-      {countries.length === 1 && (
-        <CountryCard
-          countryName={countries[0].name.common}
-          flagUrl={countries[0].flags.svg}
-          population={countries[0].population}
-          capital={countries[0].capital}
-        />
-      )}
+      <main>
+        {countries.map((country) => {
+          return (
+            <CountryCard
+              key={country.name.official}
+              countryName={country.name.common}
+              flagUrl={country.flags.svg}
+              population={country.population}
+              capitals={country.capital ? country.capital : ["Non-existent"]}
+            />
+          );
+        })}
+      </main>
     </div>
   );
 }
